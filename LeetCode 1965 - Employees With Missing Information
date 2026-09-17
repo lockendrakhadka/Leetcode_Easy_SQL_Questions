@@ -1,0 +1,101 @@
+# LeetCode 1965 - Employees With Missing Information
+
+## Problem Statement
+
+### Table: `Employees`
+
+| Column Name | Type    |
+| ----------- | ------- |
+| employee_id | int     |
+| name        | varchar |
+
+* `employee_id` contains unique values.
+* Each row contains the name of the employee associated with the given employee ID.
+
+### Table: `Salaries`
+
+| Column Name | Type |
+| ----------- | ---- |
+| employee_id | int  |
+| salary      | int  |
+
+* `employee_id` contains unique values.
+* Each row contains the salary of the employee associated with the given employee ID.
+
+Write a solution to find the IDs of all employees with **missing information**.
+
+An employee has missing information if:
+
+* Their **name is missing**, or
+* Their **salary is missing**.
+
+Return the result ordered by `employee_id` in **ascending order**.
+
+## Example 1
+
+### Input
+
+```text
+Employees table:
++-------------+----------+
+| employee_id | name     |
++-------------+----------+
+| 2           | Crew     |
+| 4           | Haven    |
+| 5           | Kristian |
++-------------+----------+
+
+Salaries table:
++-------------+--------+
+| employee_id | salary |
++-------------+--------+
+| 5           | 76071  |
+| 1           | 22517  |
+| 4           | 63539  |
++-------------+--------+
+```
+
+### Output
+
+```text
++-------------+
+| employee_id |
++-------------+
+| 1           |
+| 2           |
++-------------+
+```
+
+### Explanation
+
+Employees `1`, `2`, `4`, and `5` are working at the company.
+
+* Employee `1` has a salary but their **name is missing**.
+* Employee `2` has a name but their **salary is missing**.
+* Employees `4` and `5` have both their name and salary.
+
+Therefore, employees `1` and `2` have missing information.
+
+
+
+
+
+
+
+Solution:
+
+
+select employee_id
+from employees
+where employee_id not in(
+    select employee_id
+    from salaries)
+
+union
+
+select employee_id
+from salaries
+where employee_id not in(
+    select employee_id
+    from employees)
+order by employee_id
