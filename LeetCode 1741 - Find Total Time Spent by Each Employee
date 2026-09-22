@@ -1,0 +1,88 @@
+# LeetCode 1741 - Find Total Time Spent by Each Employee
+
+## Problem Statement
+
+### Table: `Employees`
+
+| Column Name | Type |
+| ----------- | ---- |
+| emp_id      | int  |
+| event_day   | date |
+| in_time     | int  |
+| out_time    | int  |
+
+* `(emp_id, event_day, in_time)` is the primary key, meaning the combination of these columns is unique.
+* The table records employees' entries and exits from an office.
+* `event_day` represents the day the event occurred.
+* `in_time` represents the minute when the employee entered the office.
+* `out_time` represents the minute when the employee left the office.
+* `in_time` and `out_time` are between `1` and `1440`.
+* No two events for the same employee on the same day overlap.
+* `in_time` is always less than `out_time`.
+* An employee can enter and leave the office multiple times on the same day.
+
+For a single entry, the time spent in the office is:
+
+`out_time - in_time`
+
+Write a solution to calculate the **total time in minutes** spent by each employee on each day.
+
+Return the result table in any order.
+
+## Example 1
+
+### Input
+
+```text id="m4x8qa"
+Employees table:
++--------+------------+---------+----------+
+| emp_id | event_day  | in_time | out_time |
++--------+------------+---------+----------+
+| 1      | 2020-11-28 | 4       | 32       |
+| 1      | 2020-11-28 | 55      | 200      |
+| 1      | 2020-12-03 | 1       | 42       |
+| 2      | 2020-11-28 | 3       | 33       |
+| 2      | 2020-12-09 | 47      | 74       |
++--------+------------+---------+----------+
+```
+
+### Output
+
+```text id="z7p2nc"
++------------+--------+------------+
+| day        | emp_id | total_time |
++------------+--------+------------+
+| 2020-11-28 | 1      | 173        |
+| 2020-11-28 | 2      | 30         |
+| 2020-12-03 | 1      | 41         |
+| 2020-12-09 | 2      | 27         |
++------------+--------+------------+
+```
+
+### Explanation
+
+* **Employee 1 on 2020-11-28:**
+
+  * First event: `32 - 4 = 28` minutes
+  * Second event: `200 - 55 = 145` minutes
+  * Total: `28 + 145 = 173` minutes
+* **Employee 1 on 2020-12-03:**
+
+  * `42 - 1 = 41` minutes
+* **Employee 2 on 2020-11-28:**
+
+  * `33 - 3 = 30` minutes
+* **Employee 2 on 2020-12-09:**
+
+  * `74 - 47 = 27` minutes
+
+
+
+
+Solution:
+
+
+
+select event_day as day,emp_id,sum(out_time-in_time) as total_time
+from employees
+group by emp_id,day
